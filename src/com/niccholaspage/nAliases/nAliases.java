@@ -74,8 +74,8 @@ public class nAliases extends JavaPlugin {
 	    		Alias temp;
 	    		for (int i = 0; i < data.size(); i++){
 	    			temp = new Alias();
-	    			temp.setCommand(data.get(i).split(":")[0]);
-	    			temp.setAlias(data.get(i).split(":")[1]);
+	    			temp.setCommand(data.get(i).split(":")[1]);
+	    			temp.setAlias(data.get(i).split(":")[0]);
 	    			aliases.add(temp);
 	    		}
     }
