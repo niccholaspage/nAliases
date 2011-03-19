@@ -12,16 +12,15 @@ public class nAliasesPlayerListener extends PlayerListener{
 	  public void onPlayerCommandPreprocess(PlayerChatEvent event) {
 			//Get the player that talked.
 			Player player = event.getPlayer();
-			for (int i = 0; i < plugin.commands.size(); i++){
-			if (event.getMessage().split(" ")[0].equalsIgnoreCase((plugin.commands.get(i)))){
-				event.setCancelled(true);
-				if (plugin.aliases.get(i).startsWith("/")){
-					event.setMessage(event.getMessage().replace(plugin.commands.get(i), plugin.aliases.get(i)));
-				}else {
-					player.chat(event.getMessage().replace(plugin.commands.get(i), plugin.aliases.get(i)));
+			for (int i = 0; i < plugin.aliases.size(); i++){
+				if (event.getMessage().split(" ")[0].equalsIgnoreCase(plugin.aliases.get(i).getAlias())){
+					event.setCancelled(true);
+					if (plugin.aliases.get(i).getCommand().startsWith("/")){
+						event.setMessage(event.getMessage().replace(plugin.aliases.get(i).getAlias(), plugin.aliases.get(i).getCommand()));
+					}else {
+						player.chat(event.getMessage().replace(plugin.aliases.get(i).getAlias(), plugin.aliases.get(i).getCommand()));
+					}
 				}
-				return;
 			}
-		}
 	  }
 }

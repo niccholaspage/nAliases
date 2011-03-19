@@ -14,9 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class nAliases extends JavaPlugin {
 	private final nAliasesPlayerListener playerListener = new nAliasesPlayerListener(this);
-	//The command listener
-	public ArrayList<String> commands = new ArrayList<String>();
-	public ArrayList<String> aliases = new ArrayList<String>();
+	public ArrayList<Alias> aliases = new ArrayList<Alias>();
     @Override
 	public void onDisable() {
 		//Print "Basic Disabled" on the log.
@@ -64,7 +62,6 @@ public class nAliases extends JavaPlugin {
 					System.out.println("Add your aliases in plugins/nAliases/commands.txt.");
 					return;
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -74,9 +71,12 @@ public class nAliases extends JavaPlugin {
 	    	    }catch (Exception e){
 	    	    }
 	    		data = filetoarray(in);
+	    		Alias temp;
 	    		for (int i = 0; i < data.size(); i++){
-	    			commands.add(data.get(i).split(":")[0]);
-	    			aliases.add(data.get(i).split(":")[1]);
+	    			temp = new Alias();
+	    			temp.setCommand(data.get(i).split(":")[0]);
+	    			temp.setAlias(data.get(i).split(":")[1]);
+	    			aliases.add(temp);
 	    		}
     }
 }
