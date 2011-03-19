@@ -100,7 +100,6 @@ public class nAliases extends JavaPlugin {
 	    			temp.setAlias(split[0]);
 	    			if (split.length > 2){
 	    				temp.setPermissions(new ArrayList<String>(Arrays.asList(split[2].split(","))));
-	    				System.out.println(temp.getPermissions().get(0));
 	    			}
 	    			aliases.add(temp);
 	    		}
