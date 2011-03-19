@@ -1,9 +1,11 @@
 package com.niccholaspage.nAliases;
 
+import java.util.ArrayList;
+
 public class Alias {
 	private String command;
 	private String alias;
-	private String permissions;
+	private ArrayList<String> permissions = new ArrayList<String>();
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -16,10 +18,10 @@ public class Alias {
 	public String getCommand(){
 		return command;
 	}
-	public void setPermissions(String permissions){
+	public void setPermissions(ArrayList<String> permissions){
 		this.permissions = permissions;
 	}
-	public String getPermissions(){
+	public ArrayList<String> getPermissions(){
 		return permissions;
 	}
 }

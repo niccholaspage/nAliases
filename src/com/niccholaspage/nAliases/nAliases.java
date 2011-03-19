@@ -6,15 +6,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
+
 public class nAliases extends JavaPlugin {
 	private final nAliasesPlayerListener playerListener = new nAliasesPlayerListener(this);
 	public ArrayList<Alias> aliases = new ArrayList<Alias>();
+	public static PermissionHandler Permissions;
     @Override
 	public void onDisable() {
 		//Print "Basic Disabled" on the log.
@@ -31,6 +37,9 @@ public class nAliases extends JavaPlugin {
         PluginDescriptionFile pdfFile = this.getDescription();
         //Print that the plugin has been enabled!
         System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
+        //Setup Permissions
+        setupPermissions();
+        //Config
         readConfig();
 	}
 	public static ArrayList<String> filetoarray(BufferedReader in){
@@ -48,6 +57,17 @@ public class nAliases extends JavaPlugin {
 		  }
 		  return data;
 	}
+    private void setupPermissions() {
+        Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+
+        if (nAliases.Permissions == null) {
+            if (test != null) {
+                nAliases.Permissions = ((Permissions)test).getHandler();
+            } else {
+            	System.out.println("Permissions system not detected, Group aliases will not work.");
+            }
+        }
+    }
     public void readConfig(){
 			File f = new File("plugins/nAliases/");
 			BufferedReader in = null;
@@ -72,10 +92,16 @@ public class nAliases extends JavaPlugin {
 	    	    }
 	    		data = filetoarray(in);
 	    		Alias temp;
+	    		String[] split;
 	    		for (int i = 0; i < data.size(); i++){
 	    			temp = new Alias();
-	    			temp.setCommand(data.get(i).split(":")[1]);
-	    			temp.setAlias(data.get(i).split(":")[0]);
+	    			split = data.get(i).split(":");
+	    			temp.setCommand(split[1]);
+	    			temp.setAlias(split[0]);
+	    			if (split.length > 2){
+	    				temp.setPermissions(new ArrayList<String>(Arrays.asList(split[2].split(","))));
+	    				System.out.println(temp.getPermissions().get(0));
+	    			}
 	    			aliases.add(temp);
 	    		}
     }
