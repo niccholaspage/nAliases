@@ -20,7 +20,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class nAliases extends JavaPlugin {
 	private final nAliasesPlayerListener playerListener = new nAliasesPlayerListener(this);
 	public ArrayList<Alias> aliases = new ArrayList<Alias>();
-	public static PermissionHandler Permissions;
+	public PermissionHandler permissions;
     @Override
 	public void onDisable() {
 		//Print "Basic Disabled" on the log.
@@ -32,7 +32,7 @@ public class nAliases extends JavaPlugin {
 		//Create the pluginmanage pm.
 		PluginManager pm = getServer().getPluginManager();
 		//Create PlayerCommand listener
-	    pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this.playerListener, Event.Priority.Normal, this);
+	    pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.Normal, this);
        //Get the infomation from the yml file.
         PluginDescriptionFile pdfFile = this.getDescription();
         //Print that the plugin has been enabled!
@@ -58,11 +58,11 @@ public class nAliases extends JavaPlugin {
 		  return data;
 	}
     private void setupPermissions() {
-        Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+        Plugin test = getServer().getPluginManager().getPlugin("Permissions");
 
-        if (nAliases.Permissions == null) {
+        if (permissions == null) {
             if (test != null) {
-                nAliases.Permissions = ((Permissions)test).getHandler();
+                permissions = ((Permissions)test).getHandler();
             } else {
             	System.out.println("Permissions system not detected, Group aliases will not work.");
             }
